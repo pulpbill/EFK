@@ -1,0 +1,10 @@
+{
+  "kind": "Namespace",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "kube-logging",
+    "labels": {
+      "name": "kube-logging"
+    }
+  }
+}
