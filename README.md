@@ -7,6 +7,9 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-an-elasticsearch-
 
 https://blog.ptrk.io/how-to-deploy-an-efk-stack-to-kubernetes/
 
+This is how Kibana looks, showing stdout of "counter" app:
+![Image description](https://github.com/pulpbill/EFK/blob/master/kibana.JPG)
+
 ### Create namespace and storage class objects (you'll need them):
 
 Create kube-logging namespace:
@@ -41,3 +44,4 @@ yum whatprovides */htpasswd
 ```
 kubectl create -f counter.yaml
 ```
+Notice that this pod will run at the default namespace since we didn't specify one and Kibana still can see its logs. In Kubernetes, containerized applications that log to stdout and stderr have their log streams captured and redirected to JSON files on the nodes. The Fluentd Pod will tail these log files, filter log events, transform the log data, and ship it off to the Elasticsearch logging backend we deployed. In addition to container logs, the Fluentd agent will tail Kubernetes system component logs like kubelet, kube-proxy, and Docker logs.     
