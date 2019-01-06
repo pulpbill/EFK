@@ -36,3 +36,8 @@ kubectl -n kube-logging create secret generic kibana-basic-auth --from-file auth
 ```
 yum whatprovides */htpasswd
 ```
+
+### Optional: Deploy minimal counter Pod that prints sequential numbers to stdout:
+```
+kubectl create -f counter.yaml
+```
