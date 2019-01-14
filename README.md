@@ -45,3 +45,31 @@ yum whatprovides */htpasswd
 kubectl create -f counter.yaml
 ```
 Notice that this pod will run at the default namespace since we didn't specify one and Kibana still can see its logs. In Kubernetes, containerized applications that log to stdout and stderr have their log streams captured and redirected to JSON files on the nodes. The Fluentd Pod will tail these log files, filter log events, transform the log data, and ship it off to the Elasticsearch logging backend we deployed. In addition to container logs, the Fluentd agent will tail Kubernetes system component logs like kubelet, kube-proxy, and Docker logs.     
+
+## Using AWS EFS:
+
+In order to use a NFS, AWS EFS in this case, we need to follow this steps:
+
+- Create an EFS: 
+```
+aws efs create-file-system --creation-token efs-for-testing
+```
+
+- Get details about your EC2 instances (K8s nodes):
+```
+aws ec2 describe-instances --filters &lt;your-filters-to-retrieve-k8s-nodes&gt;
+```
+
+- Create a mount target (you need to do it for all your subnets/SG):
+```
+aws efs create-mount-target \
+--file-system-id <your-efs-id> \
+--subnet-id {SubnetId} \
+--security-groups {SecurityGroupId}
+```
+We need to add a deployment which will set up an EFS-Provisioner (https://github.com/kubernetes-incubator/external-storage/tree/master/aws/efs) in our cluster:
+
+
+
+
+Source (I made some changes): https://www.juandebravo.com/2018/09/28/aws-efs-kubernetes/ 
