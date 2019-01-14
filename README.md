@@ -69,7 +69,12 @@ aws efs create-mount-target \
 ```
 We need to add a deployment which will set up an EFS-Provisioner (https://github.com/kubernetes-incubator/external-storage/tree/master/aws/efs) in our cluster:
 
-
+- Create the necessary Kubernetes objects:
+```
+kubectl create -f EFS/ -n kube-logging
+```
+Note: This will create a StorageClass - PersistenVolume - PersistenVolumeClain and RBAC objects so you can make use of your EFS.
+Make sure to update the namespace, efs id and aws region. (I use EFK at kube-logging)
 
 
 Source (I made some changes): https://www.juandebravo.com/2018/09/28/aws-efs-kubernetes/ 
